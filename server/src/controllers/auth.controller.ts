@@ -42,7 +42,9 @@ export const loginUser = async (req: Request, res: Response) => {
 // Get Current User
 // ======================
 export const getMe = async (req: AuthRequest, res: Response) => {
-  return res.status(200).json({
+  console.log("REQ USER =", req.user);
+
+  return res.json({
     success: true,
     user: req.user,
   });
