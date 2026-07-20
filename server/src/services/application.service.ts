@@ -97,3 +97,23 @@ export const deleteApplicationService = async (
     message: "Application Deleted Successfully",
   };
 };
+export const getApplicationByIdService = async (
+  applicationId: string,
+  userId: string,
+) => {
+  const application = await prisma.application.findFirst({
+    where: {
+      id: applicationId,
+      userId,
+    },
+  });
+
+  if (!application) {
+    throw new Error("Application not found");
+  }
+
+  return {
+    success: true,
+    data: application,
+  };
+};

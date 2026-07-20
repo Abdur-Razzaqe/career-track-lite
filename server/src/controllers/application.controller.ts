@@ -5,6 +5,7 @@ import {
   getMyApplicationsService,
   updateApplicationStatusService,
   deleteApplicationService,
+  getApplicationByIdService,
 } from "../services/application.service";
 
 export const createApplication = async (req: AuthRequest, res: Response) => {
@@ -65,6 +66,21 @@ export const deleteApplication = async (req: AuthRequest, res: Response) => {
     const applicationId = req.params.id;
 
     const result = await deleteApplicationService(applicationId, userId);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: error instanceof Error ? error.message : "Something went wrong",
+    });
+  }
+};
+export const getApplicationById = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.user!.userId;
+    const applicationId = req.params.id;
+
+    const result = await getApplicationByIdService(applicationId, userId);
 
     return res.status(200).json(result);
   } catch (error) {
