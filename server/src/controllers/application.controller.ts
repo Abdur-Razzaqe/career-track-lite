@@ -26,7 +26,7 @@ export const getMyApplications = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
 
-    const result = await getMyApplicationsService(userId);
+    const result = await getMyApplicationsService(userId, req.query);
 
     return res.status(200).json(result);
   } catch (error) {

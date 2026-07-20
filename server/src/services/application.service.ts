@@ -20,28 +20,97 @@ export const createApplicationService = async (userId: string, data: any) => {
     data: application,
   };
 };
-export const getMyApplicationsService = async (userId: string) => {
+
+export const getMyApplicationsService = async (userId: string, query: any) => {
+  // ===========================
+  // Get Query Parameters
+  // ===========================
+  const {
+    search,
+    status,
+    source,
+    sort = "newest",
+    page = "1",
+    limit = "10",
+  } = query;
+
+  // ===========================
+  // Pagination
+  // ===========================
+  const currentPage = Number(page);
+  const pageSize = Number(limit);
+
+  const skip = (currentPage - 1) * pageSize;
+
+  const where: any = {
+    userId,
+  };
+
+  if (search) {
+    where.OR = [
+      {
+        companyName: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        jobTitle: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  if (status) {
+    where.status = status;
+  }
+
+  if (source) {
+    where.source = source;
+  }
+  // ===========================
+  // Dynamic Sort
+  // ===========================
+  const orderBy = {
+    createdAt: sort === "oldest" ? "asc" : "desc",
+  } as const;
+
+  // ===========================
+  // Total Count
+  // ===========================
+  const totalApplications = await prisma.application.count({
+    where,
+  });
+
+  // ===========================
+  // Get Applications
+  // ===========================
   const applications = await prisma.application.findMany({
-    where: {
-      userId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+    where,
+    orderBy,
+    skip,
+    take: pageSize,
   });
 
   return {
     success: true,
-    count: applications.length,
+    pagination: {
+      total: totalApplications,
+      page: currentPage,
+      limit: pageSize,
+      totalPages: Math.ceil(totalApplications / pageSize),
+    },
     data: applications,
   };
 };
+
 export const updateApplicationStatusService = async (
   applicationId: string,
   userId: string,
   status: string,
 ) => {
-  // Step 1: Find application
   const application = await prisma.application.findFirst({
     where: {
       id: applicationId,
@@ -53,7 +122,6 @@ export const updateApplicationStatusService = async (
     throw new Error("Application not found");
   }
 
-  // Step 2: Update status
   const updatedApplication = await prisma.application.update({
     where: {
       id: applicationId,
@@ -69,11 +137,11 @@ export const updateApplicationStatusService = async (
     data: updatedApplication,
   };
 };
+
 export const deleteApplicationService = async (
   applicationId: string,
   userId: string,
 ) => {
-  // Check ownership
   const application = await prisma.application.findFirst({
     where: {
       id: applicationId,
@@ -85,7 +153,6 @@ export const deleteApplicationService = async (
     throw new Error("Application not found");
   }
 
-  // Delete application
   await prisma.application.delete({
     where: {
       id: applicationId,
@@ -97,6 +164,7 @@ export const deleteApplicationService = async (
     message: "Application Deleted Successfully",
   };
 };
+
 export const getApplicationByIdService = async (
   applicationId: string,
   userId: string,
