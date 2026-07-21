@@ -1,73 +1,78 @@
 import prisma from "../config/prisma";
 
 export const getDashboardStatsService = async (userId: string) => {
-  const totalApplications = await prisma.application.count({
-    where: {
-      userId,
-    },
-  });
+  const [
+    totalApplications,
+    applied,
+    assessment,
+    interviews,
+    offers,
+    rejected,
+    recentApplications,
+  ] = await Promise.all([
+    prisma.application.count({
+      where: { userId },
+    }),
 
-  const saved = await prisma.application.count({
-    where: {
-      userId,
-      status: "SAVED",
-    },
-  });
+    prisma.application.count({
+      where: {
+        userId,
+        status: "APPLIED",
+      },
+    }),
 
-  const applied = await prisma.application.count({
-    where: {
-      userId,
-      status: "APPLIED",
-    },
-  });
+    prisma.application.count({
+      where: {
+        userId,
+        status: "ASSESSMENT",
+      },
+    }),
 
-  const assessment = await prisma.application.count({
-    where: {
-      userId,
-      status: "ASSESSMENT",
-    },
-  });
+    prisma.application.count({
+      where: {
+        userId,
+        status: "INTERVIEW",
+      },
+    }),
 
-  const interview = await prisma.application.count({
-    where: {
-      userId,
-      status: "INTERVIEW",
-    },
-  });
+    prisma.application.count({
+      where: {
+        userId,
+        status: "OFFER",
+      },
+    }),
 
-  const offer = await prisma.application.count({
-    where: {
-      userId,
-      status: "OFFER",
-    },
-  });
+    prisma.application.count({
+      where: {
+        userId,
+        status: "REJECTED",
+      },
+    }),
 
-  const rejected = await prisma.application.count({
-    where: {
-      userId,
-      status: "REJECTED",
-    },
-  });
-
-  const recentApplications = await prisma.application.findMany({
-    where: {
-      userId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: 5,
-  });
+    prisma.application.findMany({
+      where: { userId },
+      orderBy: {
+        applicationDate: "desc",
+      },
+      take: 5,
+      select: {
+        id: true,
+        companyName: true,
+        jobTitle: true,
+        status: true,
+        applicationDate: true,
+      },
+    }),
+  ]);
 
   return {
     success: true,
     data: {
       totalApplications,
-      saved,
       applied,
       assessment,
-      interview,
-      offer,
+      interviews,
+      offers,
       rejected,
       recentApplications,
     },

@@ -1,6 +1,9 @@
 import prisma from "../config/prisma";
 
 export const createApplicationService = async (userId: string, data: any) => {
+  console.log("========== CREATE APPLICATION ==========");
+  console.log(data);
+
   const application = await prisma.application.create({
     data: {
       companyName: data.companyName,
@@ -16,7 +19,6 @@ export const createApplicationService = async (userId: string, data: any) => {
 
   return {
     success: true,
-    message: "Application Created Successfully",
     data: application,
   };
 };
@@ -106,10 +108,10 @@ export const getMyApplicationsService = async (userId: string, query: any) => {
   };
 };
 
-export const updateApplicationStatusService = async (
+export const updateApplicationService = async (
   applicationId: string,
   userId: string,
-  status: string,
+  data: any,
 ) => {
   const application = await prisma.application.findFirst({
     where: {
@@ -127,7 +129,13 @@ export const updateApplicationStatusService = async (
       id: applicationId,
     },
     data: {
-      status: status as any,
+      companyName: data.companyName,
+      jobTitle: data.jobTitle,
+      jobUrl: data.jobUrl,
+      source: data.source,
+      status: data.status,
+      applicationDate: new Date(data.applicationDate),
+      notes: data.notes,
     },
   });
 
@@ -137,7 +145,6 @@ export const updateApplicationStatusService = async (
     data: updatedApplication,
   };
 };
-
 export const deleteApplicationService = async (
   applicationId: string,
   userId: string,

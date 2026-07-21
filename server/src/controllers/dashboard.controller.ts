@@ -10,7 +10,7 @@ export const getDashboardStats = async (req: AuthRequest, res: Response) => {
 
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       success: false,
       message: error instanceof Error ? error.message : "Something went wrong",
     });

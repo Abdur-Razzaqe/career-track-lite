@@ -3,11 +3,14 @@ import { AuthRequest } from "../types/auth.types";
 import {
   createApplicationService,
   getMyApplicationsService,
-  updateApplicationStatusService,
+  updateApplicationService,
   deleteApplicationService,
   getApplicationByIdService,
 } from "../services/application.service";
 
+// ===========================
+// Create Application
+// ===========================
 export const createApplication = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
@@ -22,11 +25,36 @@ export const createApplication = async (req: AuthRequest, res: Response) => {
     });
   }
 };
+
+// ===========================
+// Get All Applications
+// ===========================
 export const getMyApplications = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
 
     const result = await getMyApplicationsService(userId, req.query);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+
+    return res.status(400).json({
+      success: false,
+      message: error instanceof Error ? error.message : "Something went wrong",
+    });
+  }
+};
+
+// ===========================
+// Get Single Application
+// ===========================
+export const getApplicationById = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.user!.userId;
+    const applicationId = req.params.id;
+
+    const result = await getApplicationByIdService(applicationId, userId);
 
     return res.status(200).json(result);
   } catch (error) {
@@ -36,19 +64,19 @@ export const getMyApplications = async (req: AuthRequest, res: Response) => {
     });
   }
 };
-export const updateApplicationStatus = async (
-  req: AuthRequest,
-  res: Response,
-) => {
+
+// ===========================
+// Update Application
+// ===========================
+export const updateApplication = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
     const applicationId = req.params.id;
-    const { status } = req.body;
 
-    const result = await updateApplicationStatusService(
+    const result = await updateApplicationService(
       applicationId,
       userId,
-      status,
+      req.body,
     );
 
     return res.status(200).json(result);
@@ -60,27 +88,15 @@ export const updateApplicationStatus = async (
   }
 };
 
+// ===========================
+// Delete Application
+// ===========================
 export const deleteApplication = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
     const applicationId = req.params.id;
 
     const result = await deleteApplicationService(applicationId, userId);
-
-    return res.status(200).json(result);
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: error instanceof Error ? error.message : "Something went wrong",
-    });
-  }
-};
-export const getApplicationById = async (req: AuthRequest, res: Response) => {
-  try {
-    const userId = req.user!.userId;
-    const applicationId = req.params.id;
-
-    const result = await getApplicationByIdService(applicationId, userId);
 
     return res.status(200).json(result);
   } catch (error) {
