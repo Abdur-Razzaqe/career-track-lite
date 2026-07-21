@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { createApplication } from "../../services/application.service";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface ApplicationForm {
   companyName: string;
@@ -42,12 +43,16 @@ const AddApplication = () => {
     try {
       setError("");
 
-      await createApplication(data);
+      await toast.promise(createApplication(data), {
+        loading: "Saving application...",
+        success: "Application added successfully!",
+        error: "Failed to add application.",
+      });
 
-      alert("Application Added Successfully");
       navigate("/applications");
     } catch (err: any) {
       console.error(err);
+
       setError(err.response?.data?.message || "Something went wrong");
     }
   };

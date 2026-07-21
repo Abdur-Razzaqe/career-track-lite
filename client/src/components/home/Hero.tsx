@@ -1,35 +1,8 @@
 import { motion } from "framer-motion";
 import { ArrowRight, BriefcaseBusiness } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getDashboardStats } from "../../services/dashboard.service";
-
-interface Stats {
-  totalApplications: number;
-  interviews: number;
-  offers: number;
-}
 
 const Hero = () => {
-  const [stats, setStats] = useState<Stats>({
-    totalApplications: 0,
-    interviews: 0,
-    offers: 0,
-  });
-
-  useEffect(() => {
-    const loadStats = async () => {
-      try {
-        const res = await getDashboardStats();
-
-        setStats(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    loadStats();
-  }, []);
   return (
     <section className="hero min-h-[90vh] bg-base-100 overflow-hidden">
       <div className="hero-content flex-col-reverse lg:flex-row-reverse max-w-7xl gap-16">

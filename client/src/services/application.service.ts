@@ -1,6 +1,6 @@
 import api from "./api";
 
-export const getApplications = async (
+export const getApplicationService = async (
   search = "",
   status = "",
   source = "",

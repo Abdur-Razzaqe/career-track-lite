@@ -14,6 +14,8 @@ import MainLayout from "../layouts/MainLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 import PrivateRoute from "./PrivateRoute";
+import Profile from "../pages/Profile/Profile";
+import Settings from "../pages/Settings/Settings";
 
 const AppRoutes = () => {
   return (
@@ -45,6 +47,8 @@ const AppRoutes = () => {
           <Route path="/applications/edit/:id" element={<EditApplication />} />
 
           <Route path="/applications/:id" element={<Details />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
 
         {/* ================= 404 ================= */}

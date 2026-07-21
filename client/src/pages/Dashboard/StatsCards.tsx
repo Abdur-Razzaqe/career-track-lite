@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { getDashboardStats } from "../../services/dashboard.service";
+import { getDashboardStatsService } from "../../services/dashboard.service";
 import {
   BriefcaseBusiness,
   Send,
@@ -25,7 +25,7 @@ const StatsCards = () => {
   useEffect(() => {
     const loadStats = async () => {
       try {
-        const res = await getDashboardStats();
+        const res = await getDashboardStatsService();
         setStats(res.data);
       } catch (error) {
         console.error(error);

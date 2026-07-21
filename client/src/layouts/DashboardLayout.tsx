@@ -85,7 +85,7 @@ const DashboardLayout = () => {
                   to="/dashboard"
                   end
                   className={({ isActive }) =>
-                    `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-3 py-2 ${
+                    `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-3 py-3 ${
                       isActive
                         ? "active font-semibold bg-primary text-primary-content"
                         : ""

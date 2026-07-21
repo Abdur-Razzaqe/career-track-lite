@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  getApplications,
+  getApplicationService,
   deleteApplication,
 } from "../../services/application.service";
 
@@ -26,11 +26,18 @@ const Applications = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const loadApplications = async () => {
+  const loadApplicationService = async () => {
     try {
       setLoading(true);
 
-      const res = await getApplications(search, status, source, sort, page, 10);
+      const res = await getApplicationService(
+        search,
+        status,
+        source,
+        sort,
+        page,
+        10,
+      );
 
       console.log("Applications:", res);
 
@@ -44,7 +51,7 @@ const Applications = () => {
   };
 
   useEffect(() => {
-    loadApplications();
+    loadApplicationService();
   }, [search, status, source, sort, page]);
 
   const handleDelete = async (id: string) => {
@@ -59,7 +66,7 @@ const Applications = () => {
 
       alert("Application deleted successfully");
 
-      loadApplications();
+      loadApplicationService();
     } catch (error) {
       console.error(error);
       alert("Delete failed");
@@ -169,21 +176,21 @@ const Applications = () => {
                     <td className="space-x-3">
                       <Link
                         to={`/applications/${app.id}`}
-                        className="text-blue-600"
+                        className=" btn btn-outline p-3 py-2 text-blue-600"
                       >
                         View
                       </Link>
 
                       <Link
                         to={`/applications/edit/${app.id}`}
-                        className="text-green-600"
+                        className=" btn btn-primary text-gray-50 p-3 py-2"
                       >
                         Edit
                       </Link>
 
                       <button
                         onClick={() => handleDelete(app.id)}
-                        className="text-red-600"
+                        className=" btn btn-danger p-3 py-2 hover:bg-primary text-red-600 cursor-pointer"
                       >
                         Delete
                       </button>
