@@ -1,7 +1,24 @@
 import api from "./api";
 
-export const getApplications = async () => {
-  const response = await api.get("/applications");
+export const getApplications = async (
+  search = "",
+  status = "",
+  source = "",
+  sort = "newest",
+  page = 1,
+  limit = 10,
+) => {
+  const response = await api.get("/applications", {
+    params: {
+      search,
+      status,
+      source,
+      sort,
+      page,
+      limit,
+    },
+  });
+
   return response.data;
 };
 

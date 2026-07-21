@@ -21,14 +21,16 @@ const Details = () => {
 
   useEffect(() => {
     const loadApplication = async () => {
-      try {
-        const res = await getApplication(id!);
+      if (!id) return;
 
-        console.log(res);
+      try {
+        const res = await getApplication(id);
+
+        console.log("Application Details:", res);
 
         setApplication(res.data);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to load application:", error);
       } finally {
         setLoading(false);
       }
@@ -38,61 +40,87 @@ const Details = () => {
   }, [id]);
 
   if (loading) {
-    return <div className="text-center mt-10">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-[60vh]">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   }
 
   if (!application) {
-    return <div className="text-center mt-10">Application Not Found</div>;
+    return (
+      <div className="text-center mt-10">
+        <h2 className="text-2xl font-bold text-red-500">
+          Application Not Found
+        </h2>
+
+        <Link to="/applications" className="btn btn-primary mt-5">
+          Back
+        </Link>
+      </div>
+    );
   }
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Application Details</h1>
+      <h1 className="text-3xl font-bold mb-8">Application Details</h1>
 
-      <div className="space-y-4 border rounded-lg shadow p-6">
-        <p>
-          <strong>Company:</strong> {application.companyName}
-        </p>
+      <div className="bg-base-100 border rounded-xl shadow-lg p-6 space-y-4">
+        <div>
+          <p className="font-semibold">Company Name</p>
+          <p>{application.companyName}</p>
+        </div>
 
-        <p>
-          <strong>Job Title:</strong> {application.jobTitle}
-        </p>
+        <div>
+          <p className="font-semibold">Job Title</p>
+          <p>{application.jobTitle}</p>
+        </div>
 
-        <p>
-          <strong>Status:</strong> {application.status}
-        </p>
+        <div>
+          <p className="font-semibold">Status</p>
+          <span className="badge badge-primary">{application.status}</span>
+        </div>
 
-        <p>
-          <strong>Source:</strong> {application.source}
-        </p>
+        <div>
+          <p className="font-semibold">Source</p>
+          <p>{application.source}</p>
+        </div>
 
-        <p>
-          <strong>Application Date:</strong>{" "}
-          {new Date(application.applicationDate).toLocaleDateString()}
-        </p>
+        <div>
+          <p className="font-semibold">Application Date</p>
+          <p>
+            {application.applicationDate
+              ? new Date(application.applicationDate).toLocaleDateString()
+              : "-"}
+          </p>
+        </div>
 
-        <p>
-          <strong>Job URL:</strong>{" "}
-          <a
-            href={application.jobUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="text-blue-600 underline"
-          >
-            {application.jobUrl}
-          </a>
-        </p>
+        <div>
+          <p className="font-semibold">Job URL</p>
 
-        <p>
-          <strong>Notes:</strong>
-        </p>
+          {application.jobUrl ? (
+            <a
+              href={application.jobUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline break-all"
+            >
+              {application.jobUrl}
+            </a>
+          ) : (
+            <p>No URL</p>
+          )}
+        </div>
 
-        <p>{application.notes}</p>
+        <div>
+          <p className="font-semibold">Notes</p>
+          <p>{application.notes || "No Notes"}</p>
+        </div>
 
-        <div className="pt-5">
+        <div className="flex gap-3 pt-5">
           <Link
             to={`/applications/edit/${application.id}`}
-            className="btn btn-primary mr-3"
+            className="btn btn-primary"
           >
             Edit
           </Link>

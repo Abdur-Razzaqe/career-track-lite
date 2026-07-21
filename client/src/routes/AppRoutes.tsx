@@ -10,66 +10,44 @@ import EditApplication from "../pages/EditApplication/EditApplication";
 import Details from "../pages/Details/Details";
 import NotFound from "../pages/NotFound/NotFound";
 
-import MainLayout from "../components/layout/MainLayout";
+import MainLayout from "../layouts/MainLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
+
 import PrivateRoute from "./PrivateRoute";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Routes with Layout */}
+        {/* ================= Public Layout ================= */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-
-          <Route
-            path="/applications"
-            element={
-              <PrivateRoute>
-                <Applications />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
-            path="/applications/new"
-            element={
-              <PrivateRoute>
-                <AddApplication />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
-            path="/applications/:id"
-            element={
-              <PrivateRoute>
-                <Details />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
-            path="/applications/edit/:id"
-            element={
-              <PrivateRoute>
-                <EditApplication />
-              </PrivateRoute>
-            }
-          />
         </Route>
 
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
-
+        {/* ================= Auth ================= */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
+        {/* ================= Dashboard Layout ================= */}
+        <Route
+          element={
+            <PrivateRoute>
+              <DashboardLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route path="/applications" element={<Applications />} />
+
+          <Route path="/applications/new" element={<AddApplication />} />
+
+          <Route path="/applications/edit/:id" element={<EditApplication />} />
+
+          <Route path="/applications/:id" element={<Details />} />
+        </Route>
+
+        {/* ================= 404 ================= */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

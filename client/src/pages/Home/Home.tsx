@@ -1,14 +1,14 @@
-import { useAuth } from "../../context/AuthContext";
+import DashboardPreview from "../../components/home/DashboardPreview";
+import Features from "../../components/home/Features";
+import HeroSection from "../../components/home/Hero";
 
 const Home = () => {
-  const { user } = useAuth();
-
   return (
-    <div className="space-y-4">
-      <h1 className="text-3xl font-bold">CareerTrack Lite</h1>
-
-      {user ? <p>Welcome {user.email}</p> : <p>Not Logged In</p>}
-    </div>
+    <main>
+      <HeroSection />
+      <Features />
+      <DashboardPreview />
+    </main>
   );
 };
 
