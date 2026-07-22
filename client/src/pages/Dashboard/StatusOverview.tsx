@@ -10,10 +10,14 @@ interface DashboardData {
 }
 
 interface Props {
-  dashboard: DashboardData;
+  dashboard: DashboardData | null;
 }
 
 const StatusOverview = ({ dashboard }: Props) => {
+  if (!dashboard) {
+    return null;
+  }
+
   const total = dashboard.totalApplications || 1;
 
   const statuses = [
@@ -46,8 +50,14 @@ const StatusOverview = ({ dashboard }: Props) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{
+        opacity: 0,
+        y: 30,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
       className="card bg-base-100 shadow-lg border border-base-300"
     >
       <div className="card-body">
@@ -60,7 +70,8 @@ const StatusOverview = ({ dashboard }: Props) => {
                 <span>{status.title}</span>
 
                 <span>
-                  {status.value} ({Math.round((status.value / total) * 100)}%)
+                  {status.value} ({Math.round((status.value / total) * 100)}
+                  %)
                 </span>
               </div>
 
@@ -68,7 +79,7 @@ const StatusOverview = ({ dashboard }: Props) => {
                 className={`${status.color} w-full h-3`}
                 value={status.value}
                 max={total}
-              ></progress>
+              />
             </div>
           ))}
         </div>

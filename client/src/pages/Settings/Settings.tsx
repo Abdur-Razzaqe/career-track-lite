@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Moon,
-  Sun,
-  Bell,
-  Shield,
-  Lock,
-  Save,
-  CheckCircle2,
-} from "lucide-react";
+import { Moon, Sun, Bell, Shield, Save, CheckCircle2 } from "lucide-react";
 
 interface SettingsState {
   darkMode: boolean;

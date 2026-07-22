@@ -3,8 +3,9 @@ import {
   useContext,
   useEffect,
   useState,
-  ReactNode,
+  type ReactNode,
 } from "react";
+
 import {
   loginUser,
   registerUser,
@@ -40,10 +41,11 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+
+  const [loading, setLoading] = useState<boolean>(true);
 
   // ==========================
-  // Restore Logged In User
+  // Restore User Session
   // ==========================
   useEffect(() => {
     const loadUser = async () => {
@@ -57,12 +59,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const res = await getCurrentUser();
 
-        // Backend: { success: true, user: {...} }
         setUser(res.user);
       } catch (error) {
-        console.error("Auto login failed:", error);
+        console.error("Session restore failed:", error);
 
         localStorage.removeItem("token");
+
         setUser(null);
       } finally {
         setLoading(false);
@@ -73,34 +75,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   // ==========================
-  // Login
+  // Login User
   // ==========================
-  const login = async (data: LoginData) => {
+  const login = async (data: LoginData): Promise<void> => {
     const res = await loginUser(data);
 
-    console.log("Login Response:", res);
+    /**
+     * Backend response example:
+     * {
+     *   token: "jwt-token"
+     * }
+     */
 
     localStorage.setItem("token", res.token);
 
-    const me = await getCurrentUser();
+    const userData = await getCurrentUser();
 
-    console.log("Current User:", me);
-
-    setUser(me.user);
+    setUser(userData.user);
   };
 
   // ==========================
-  // Register
+  // Register User
   // ==========================
-  const register = async (data: RegisterData) => {
+  const register = async (data: RegisterData): Promise<void> => {
     await registerUser(data);
   };
 
   // ==========================
   // Logout
   // ==========================
-  const logout = () => {
+  const logout = (): void => {
     localStorage.removeItem("token");
+
     setUser(null);
   };
 

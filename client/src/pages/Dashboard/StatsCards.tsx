@@ -1,6 +1,4 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { getDashboardStatsService } from "../../services/dashboard.service";
 import {
   BriefcaseBusiness,
   Send,
@@ -10,70 +8,52 @@ import {
   XCircle,
 } from "lucide-react";
 
-interface DashboardData {
-  totalApplications: number;
-  applied: number;
-  assessment: number;
-  interviews: number;
-  offers: number;
-  rejected: number;
+import type { DashboardData } from "../../types/dashboard.types";
+
+interface StatsCardsProps {
+  dashboard: DashboardData | null;
 }
 
-const StatsCards = () => {
-  const [stats, setStats] = useState<DashboardData | null>(null);
-
-  useEffect(() => {
-    const loadStats = async () => {
-      try {
-        const res = await getDashboardStatsService();
-        setStats(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    loadStats();
-  }, []);
-
+const StatsCards = ({ dashboard }: StatsCardsProps) => {
   const cards = [
     {
       title: "Total Applications",
-      value: stats?.totalApplications ?? 0,
+      value: dashboard?.totalApplications ?? 0,
       icon: BriefcaseBusiness,
       color: "text-primary",
       bg: "bg-primary/10",
     },
     {
       title: "Applied",
-      value: stats?.applied ?? 0,
+      value: dashboard?.applied ?? 0,
       icon: Send,
       color: "text-info",
       bg: "bg-info/10",
     },
     {
       title: "Assessment",
-      value: stats?.assessment ?? 0,
+      value: dashboard?.assessment ?? 0,
       icon: ClipboardCheck,
       color: "text-secondary",
       bg: "bg-secondary/10",
     },
     {
       title: "Interviews",
-      value: stats?.interviews ?? 0,
+      value: dashboard?.interviews ?? 0,
       icon: Users,
       color: "text-warning",
       bg: "bg-warning/10",
     },
     {
       title: "Offers",
-      value: stats?.offers ?? 0,
+      value: dashboard?.offers ?? 0,
       icon: Award,
       color: "text-success",
       bg: "bg-success/10",
     },
     {
       title: "Rejected",
-      value: stats?.rejected ?? 0,
+      value: dashboard?.rejected ?? 0,
       icon: XCircle,
       color: "text-error",
       bg: "bg-error/10",
@@ -88,8 +68,14 @@ const StatsCards = () => {
         return (
           <motion.div
             key={card.title}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 40,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             transition={{
               delay: index * 0.1,
               duration: 0.5,
