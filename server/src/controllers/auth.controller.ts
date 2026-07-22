@@ -2,9 +2,8 @@ import { Request, Response } from "express";
 import { registerService, loginService } from "../services/auth.service";
 import { AuthRequest } from "../types/auth.types";
 
-// ======================
 // Register Controller
-// ======================
+
 export const registerUser = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
@@ -20,9 +19,8 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-// ======================
 // Login Controller
-// ======================
+
 export const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -38,9 +36,8 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-// ======================
 // Get Current User
-// ======================
+
 export const getMe = async (req: AuthRequest, res: Response) => {
   console.log("REQ USER =", req.user);
 

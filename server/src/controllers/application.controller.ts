@@ -8,9 +8,8 @@ import {
   getApplicationByIdService,
 } from "../services/application.service";
 
-// ===========================
 // Create Application
-// ===========================
+
 export const createApplication = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
@@ -26,9 +25,8 @@ export const createApplication = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// ===========================
 // Get All Applications
-// ===========================
+
 export const getMyApplications = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
@@ -46,9 +44,8 @@ export const getMyApplications = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// ===========================
 // Get Single Application
-// ===========================
+
 export const getApplicationById = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
@@ -65,9 +62,8 @@ export const getApplicationById = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// ===========================
 // Update Application
-// ===========================
+
 export const updateApplication = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;
@@ -88,9 +84,8 @@ export const updateApplication = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// ===========================
 // Delete Application
-// ===========================
+
 export const deleteApplication = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.userId;

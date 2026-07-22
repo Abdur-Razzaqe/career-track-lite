@@ -1,9 +1,6 @@
 import prisma from "../config/prisma";
 
 export const createApplicationService = async (userId: string, data: any) => {
-  console.log("========== CREATE APPLICATION ==========");
-  console.log(data);
-
   const application = await prisma.application.create({
     data: {
       companyName: data.companyName,
@@ -24,9 +21,8 @@ export const createApplicationService = async (userId: string, data: any) => {
 };
 
 export const getMyApplicationsService = async (userId: string, query: any) => {
-  // ===========================
   // Get Query Parameters
-  // ===========================
+
   const {
     search,
     status,
@@ -36,9 +32,8 @@ export const getMyApplicationsService = async (userId: string, query: any) => {
     limit = "10",
   } = query;
 
-  // ===========================
   // Pagination
-  // ===========================
+
   const currentPage = Number(page);
   const pageSize = Number(limit);
 
@@ -72,23 +67,21 @@ export const getMyApplicationsService = async (userId: string, query: any) => {
   if (source) {
     where.source = source;
   }
-  // ===========================
+
   // Dynamic Sort
-  // ===========================
+
   const orderBy = {
     createdAt: sort === "oldest" ? "asc" : "desc",
   } as const;
 
-  // ===========================
   // Total Count
-  // ===========================
+
   const totalApplications = await prisma.application.count({
     where,
   });
 
-  // ===========================
   // Get Applications
-  // ===========================
+
   const applications = await prisma.application.findMany({
     where,
     orderBy,

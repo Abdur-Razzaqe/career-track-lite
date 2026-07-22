@@ -2,9 +2,8 @@ import prisma from "../config/prisma";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-// ======================
 // Register Service
-// ======================
+
 export const registerService = async (
   name: string,
   email: string,
@@ -41,9 +40,8 @@ export const registerService = async (
   };
 };
 
-// ======================
 // Login Service
-// ======================
+
 export const loginService = async (email: string, password: string) => {
   const user = await prisma.user.findUnique({
     where: {
