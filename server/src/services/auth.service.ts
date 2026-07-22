@@ -60,16 +60,10 @@ export const loginService = async (email: string, password: string) => {
   }
 
   const token = jwt.sign(
-    {
-      userId: user.id,
-      email: user.email,
-    },
+    { userId: user.id, email: user.email },
     process.env.JWT_SECRET as string,
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN || "7d",
-    },
+    { expiresIn: "7d" } as any,
   );
-
   return {
     success: true,
     message: "Login Successful",
