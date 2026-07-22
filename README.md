@@ -8,6 +8,7 @@ A full-stack job application tracking system designed to help users manage their
 * **Live Frontend:** https://career-track-lite-zeta.vercel.app/
 * **Live Backend API:** https://career-track-lite.onrender.com
 * **API Health Check:** https://career-track-lite.onrender.com/api/health
+* **GitHub Reposatory:** https://github.com/Abdur-Razzaqe/career-track-lite 
 
 ---
 
@@ -31,8 +32,8 @@ A full-stack job application tracking system designed to help users manage their
 
 ##  Test Login Credentials
 You can use the following test account to evaluate the live application:
-* **Email:** `testuser@example.com`
-* **Password:** `password123`
+* **Email:** `newuser@gmail.com`
+* **Password:** `123456`
 
 ---
 
@@ -49,26 +50,148 @@ Follow these steps to run the project locally on your machine.
 git clone [https://github.com/Abdur-Razzaqe/career-track-lite.git](https://github.com/Abdur-Razzaqe/career-track-lite.git)
 cd career-track-lite
 
----
+---  
 
-### 2. Backend SetupBashcd server
-
+###  2. Backend Setup  
+Bash
+cd server
 npm install
-Create a .env file inside the server directory based on .env.example:Code snippetPORT=5000
+
+--- 
+
+###  Create a .env file inside the server directory based on .env.example:
+Code snippetPORT=5000
 DATABASE_URL="postgresql://user:password@localhost:5432/careertrack?schema=public"
 JWT_SECRET="your_jwt_secret_key"
 CLIENT_URL="http://localhost:5173"
-* Run Prisma migrations and start the server:
+
+--- 
+
+### Run Prisma migrations and start the server:
 Bashnpx prisma migrate dev --name init
 npm run dev
 
-### 3. Frontend SetupBashcd ../client
+### 3. Frontend Setup
+Bash
+cd ../client
 npm install
-Create a .env file inside the client directory:
+---  
+ 
+## Create a .env file inside the client directory:
 Code snippet VITE_API_URL="http://localhost:5000/api"
 Start the frontend development server:
 Bash
 npm run dev
-📄 API Endpoint Summary
- Method | Endpoint | Description POST/api/auth/registerRegister a new user accountPOST/api/auth/loginLog in an existing userGET/api/auth/meGet currently logged-in user detailsPOST/api/applicationsCreate a new job applicationGET/api/applicationsList all applications belonging to the userGET/api/applications/:idView a single application by IDPATCH/api/applications/:idUpdate an existing applicationDELETE/api/applications/:idDelete an applicationGET/api/dashboard/statsGet dashboard summary statisticsGET/api/healthAPI health check endpoint🤖 AI Tools UsedAI tools were utilized during development for debugging TypeScript compilation errors, structuring Prisma database schemas, and optimizing frontend API integration patterns.🧗‍♂️ Challenges, Known Limitations & Future ImprovementsChallenges: Handling Express request parameter types in TypeScript (string | string[]) during controller updates and configuring proper CORS rules for production deployment.Limitations: Advanced data visualization charts are currently kept minimal as per MVP requirements.Future Improvements: Adding email reminders for upcoming interviews and integrating AI-powered resume and cover letter tailoring.
-👤 AuthorName: Abdur Razzaqe MiaStudent ID: [Insert Student ID Here]
+
+---
+###  API Endpoints
+
+### Authentication
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | /api/auth/register | Register User |
+| POST | /api/auth/login | Login |
+| GET | /api/auth/me | Current User |
+
+---
+
+## Applications
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | /api/applications | Create Application |
+| GET | /api/applications | Get All Applications |
+| GET | /api/applications/:id | Get Single Application |
+| PATCH | /api/applications/:id | Update Application |
+| DELETE | /api/applications/:id | Delete Application |
+
+---
+
+## Dashboard
+
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/dashboard/stats |
+
+---
+
+## Health Check
+
+| Method | Endpoint |
+|---------|----------|
+| GET | /api/health |
+
+---
+
+#  AI Tools Used
+
+The following AI tools were used during development:
+
+- ChatGPT & Gemini (Debugging & Learning)
+
+
+AI was used only to assist learning, debugging, and code explanation. All implementation and understanding were completed by the developer.
+
+---
+
+#  Challenges Faced
+
+- Setting up PostgreSQL with Prisma
+- Prisma Migration
+- JWT Authentication
+- Route Protection
+- Render Deployment
+- Environment Variable Configuration
+- Vercel API Connection
+- CORS Configuration
+
+---
+
+#  Future Improvements
+
+- Resume Upload
+- Company Logo
+- Email Reminder
+- Calendar Integration
+- AI Resume Review
+- AI Interview Questions
+- Dark Mode
+- Analytics Charts
+
+---
+
+#  Student Information
+
+**Student Name**
+
+Abdur Razzaqe Mia
+
+**Student ID**
+
+WEB12-5163
+
+---
+
+## Database Used
+
+ PostgreSQL
+
+---
+
+## Language Used
+
+ TypeScript
+
+---
+
+## AI Feature Added
+
+ No
+
+---
+
+#  Short Note
+
+CareerTrack Lite is a secure full-stack job application tracker developed using React, TypeScript, Node.js, Express, Prisma ORM, and PostgreSQL. It allows authenticated users to manage only their own job applications through complete CRUD functionality, JWT authentication, dashboard statistics, search, filtering, sorting, and a responsive user interface. The application is fully deployed and follows modern full-stack development practices.
+
