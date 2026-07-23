@@ -80,13 +80,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (data: LoginData): Promise<void> => {
     const res = await loginUser(data);
 
-    /**
-     * Backend response example:
-     * {
-     *   token: "jwt-token"
-     * }
-     */
-
     localStorage.setItem("token", res.token);
 
     const userData = await getCurrentUser();
@@ -98,7 +91,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Register User
   // ==========================
   const register = async (data: RegisterData): Promise<void> => {
+    // Create user
     await registerUser(data);
+
+    // Auto login
+    const loginRes = await loginUser({
+      email: data.email,
+      password: data.password,
+    });
+
+    localStorage.setItem("token", loginRes.token);
+
+    const userData = await getCurrentUser();
+
+    setUser(userData.user);
   };
 
   // ==========================
